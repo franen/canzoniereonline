@@ -14,9 +14,17 @@
 %%  This work has the LPPL maintenance status "author-maintained".
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{canzoniereonline}[2014/10/20 v0.1 Una classe per la creazione di canzonieri on line]
-\RequirePackage[T1]{fontenc}
+\ProvidesClass{canzoniereonline}[2015/07/02 v0.2 Una classe per la creazione di canzonieri on line]
+\RequirePackage{ifxetex}
+\ifxetex
+\RequirePackage{fontspec}
+\RequirePackage{polyglossia}
+\setdefaultlanguage{italian}
+\else
 \RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+\RequirePackage[italian]{babel}
+\fi
 \RequirePackage{xkeyval}
 \newif\iflibertine
 \newif\ifcanzsingole
@@ -26,6 +34,7 @@
 \newif\ifaseivert
 \newif\iftitleindex
 \newif\ifauthorsindex
+\newif\iftematicindex
 \newif\ifcover
 \DeclareOption{palatino}{\libertinefalse}
 \DeclareOption{libertine}{\libertinetrue}
@@ -36,6 +45,7 @@
 \DeclareOption{a6vert}{\aseiverttrue\canzsingolefalse\aquattrovertfalse\acinquevertfalse\acinqueorfalse}
 \DeclareOption{titleindex}{\titleindextrue}
 \DeclareOption{authorsindex}{\authorsindextrue}
+\DeclareOption{tematicindex}{\tematicindextrue}
 \DeclareOption{cover}{\covertrue}
 \DeclareOption{nocover}{\coverfalse}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
@@ -49,6 +59,7 @@
 \ProcessOptionsX\relax
 %corpo del font
 \ifcanzsingole
+  \RequirePackage{lastpage}
   \newcommand{\FontSize}{11pt}
 \else
    \ifaquattrovert
@@ -60,8 +71,6 @@
 %preambolo
 \LoadClass[\FontSize]{book}
 
-
-\RequirePackage{lastpage}
 \RequirePackage{graphicx}
 \RequirePackage{amssymb}
 \RequirePackage{fancyhdr} 
@@ -72,17 +81,33 @@
 \RequirePackage{xcolor}
 \RequirePackage{pdfpages}
 \RequirePackage{url}
-\RequirePackage{imakeidx} 
-\iftitleindex
-	\makeindex[title=Indice alfabetico,options=-s canzstyle.ist]
-\else\fi
-
-\ifauthorsindex
-	\makeindex[name=autori,title=Indice degli autori,options=-s canzstyle.ist]%***
-\else\fi
 \RequirePackage{xparse}
 \RequirePackage{etoolbox,xstring}
 \RequirePackage{ccicons}
+\RequirePackage{imakeidx} 
+\usepackage{titlesec}% cambio la formattazione dei titolo dei capitoli (mi serve per l'indice tematico)
+\ifxetex
+\iftitleindex
+	\makeindex[name=alfabetico,title=Indice alfabetico,program=truexindy,options=-M texindy -C utf8 -L italian -M indicealfabetico]
+\else\fi
+\ifauthorsindex
+	\makeindex[name=autori,title=Indice degli autori,program=truexindy,options= -M texindy -C utf8 -L italian -M indiceautori]
+\else\fi
+\iftematicindex
+	\makeindex[name=tematico,title=Indice tematico,program=truexindy,options= -M texindy -C utf8 -L italian -M indicetematico]
+\else\fi
+\else
+\iftitleindex
+	\makeindex[title=Indice alfabetico,options=-s canzstyle.ist]
+\else\fi
+\ifauthorsindex
+	\makeindex[name=autori,title=Indice degli autori,options=-s canzstyle.ist]%***
+\else\fi
+\iftematicindex
+	\makeindex[name=tematico,title=Indice tematico,options=-s canzstyle.ist]%***
+\else\fi
+\fi
+
 
 %FONT
 \iflibertine
@@ -107,16 +132,14 @@
 \RequirePackage[paperheight=148mm, paperwidth=105mm, inner=6mm, outer=8mm, top=9mm, bottom=9mm]{geometry}
 \fi
 
+
+
 %TESTATINE
 \ifcanzsingole
 	\pagestyle{fancy}%
 	\setlength{\headheight}{0pt}
 	\fancyhf{}
 	\renewcommand{\headrulewidth}{0pt}
-	%\fancyfoot[RE]{\setlength{\unitlength}{1mm} \begin{picture}(0,0)
-	%\put(-5,-10){\includegraphics[width=16mm]{logo_pastorale}}\end{picture}}
-	%\fancyfoot[LO]{\setlength{\unitlength}{1mm} \begin{picture}(0,0)
-	%\put(-5,-10){\includegraphics[width=16mm]{logo_pastorale}}\end{picture}}
 	\fancyfoot[RO]{\sffamily\small\thepage\ di \pageref{LastPage}}
 	\fancyfoot[LE]{\sffamily\small\thepage\ di \pageref{LastPage}}  
 	\fancyfoot[C]{\footnotesize\sffamily I testi delle canzoni sono proprietà dei rispettivi autori.\\ La Legge n. 159 del 22 maggio 1993 ne consente l'uso solo per attività didattica, di studio e di ricerca. \\Gli autori potranno richiederne la rimozione in qualsiasi momento scrivendo a canzoniereonline@gmail.com.}
@@ -249,6 +272,16 @@
     \nobreak\vskip\versesep%
   \fi\fi\fi%
 }
+
+%modifico il comando per i titoli secondari, in modo da generare l'indice con xindy
+\renewcommand\indextitleentry[1]{%
+\ifxetex
+\iftitleindex\index[alfabetico]{#1|indexanchor{canto-\thesongnum:}}\else\fi
+	\else
+  	\iftitleindex\index{#1|indexanchor{canto-\thesongnum:}}\else\fi
+	\fi
+}
+
 %note di basso
 \def\bassfont{\futurelet\next\@bassverify}
 \def\@basstrue{\hspace{-0.2em}/\hspace{-0.05em}\scriptsize}
@@ -335,17 +368,19 @@
 	\renewcommand{\arraystretch}{0} 
 	& \ifdim\titlength<\larcolonna \titolo \else \resizebox{\larcolonna}{!}{\titolo} \fi\\
 	\cline{2-2}  
-	\multirow{-2}{*}{\raisebox{-3pt}{\stampanumero\textcolor{gray}{\thesongnum}\hspace{3pt}}} & \ifthenelse{\equal{\songauthors}{}}{}{\hfill\footnotesize{\itshape\songauthors}}
+	\multirow{-2}{*}{\raisebox{-3pt}{\stampanumero\textcolor{gray}{\thesongnum}\hspace{3pt}}} & \ifthenelse{\equal{\songauthors}{}}{}{\hfill\footnotesize{\itshape\songauthors}%
+	\ifauthorsindex\expandafter\authindex\expandafter{\songauthors}\else\fi}%
 	\end{tabularx}
-\expandafter\authindex\expandafter{\songauthors}
+%
 \hypertarget{canto-\thesongnum}{}% and I put an anchor in my song.
-\StrSubstitute{\songtitle}{!}{"!}[\indexsongtitle]
-\expandafter\noaccentindex\expandafter{\songtitle}%
+\iftitleindex\StrSubstitute{\songtitle}{!}{"!}[\indexsongtitle]
+\ifxetex\index[alfabetico]{\indexsongtitle|indexanchor{canto-\thesongnum:}}\else%
+\expandafter\noaccentindex\expandafter{\songtitle}\fi%
+\else\fi
        \nexttitle%
        \foreachtitle{(\songtitle)\par}%
 }
 \fi
-
 
 %INDICI grazie a Enrico Gregorio
 \def\accents@list{\do\IeC\do\`\do\'}
@@ -367,18 +402,28 @@
 \newcommand{\authindex}[1]{%
 \authsep{\authsingleindex}{#1}}
 
-\newcommand\authsingleindex[1]{\index[autori]{#1}}
+\newcommand\authsingleindex[1]{\index[autori]{#1|indexanchor{canto-\thesongnum:}}}
 
 
+\newcommand*{\momentindex}[1]{%
+  \getposition{#1}% al posto del nome dell momento metto un numero
+  \StrSubstitute{\songtitle}{!}{"!}[\indexsongtitle]
+  \edef\doindexentry{\noexpand\index[tematico]{\momentnumber@#1!{\expandonce\indexsongtitle}|indexanchor{canto-\thesongnum:}}}
+{\doindexentry}
+}
 \DeclareListParser*{\hyperlinksep}{:}
 \newcommand{\singleindexanchor}[1]{%
- \def\newsongnumber{\StrGobbleLeft{#1}{6}}
- \hyperlink{#1}{\newsongnumber}
+ \def\newsongnumber{\StrGobbleLeft{#1}{6}}%
+ \hyperlink{#1}{\newsongnumber}%
 }
-\newcommand{\indexanchor}[2]{\hyperlinksep{\singleindexanchor}{#1}}
-\renewcommand\indextitleentry[1]{%
-  \index{#1|indexanchor{canto-\thesongnum:}}
-}
+\ifxetex
+\newcommand{\indexanchor}[1]{\hyperlinksep{\singleindexanchor}{#1}}%
+\else
+\newcommand{\indexanchor}[2]{\hyperlinksep{\singleindexanchor}{#1}}%
+\fi
+
+%\newcommand{\indexanchor}[2]{\hyperlinksep{\singleindexanchor}{#1}}
+
 
 %righe per la copertina
 \newcommand{\titolettocop}{}
