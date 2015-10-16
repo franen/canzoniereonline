@@ -1,4 +1,4 @@
 canzoniereonline
 ================
 
-A system for the online creation of songbooks (only the .tex file, to be clear)
+The class used on www.canzoniereonline.it for the creation of songbooks online.
