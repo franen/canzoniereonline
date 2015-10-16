@@ -14,7 +14,7 @@
 %%  This work has the LPPL maintenance status "author-maintained".
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{canzoniereonline}[2015/07/02 v0.2 Una classe per la creazione di canzonieri on line]
+\ProvidesClass{canzoniereonline}[2015/10/16 v0.3 Una classe per la creazione di canzonieri on line]
 \RequirePackage{ifxetex}
 \ifxetex
 \RequirePackage{fontspec}
