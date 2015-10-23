@@ -9,7 +9,7 @@
 %%  archives in directory macros/latex/base/lppl.txt.
 %% 
 %%  Author: Francesco Endrici
-%%          francescoendrici at gmail dot com
+%%          francescoendrici+tex at gmail dot com
 %% 
 %%  This work has the LPPL maintenance status "author-maintained".
 %% 
