@@ -1,4 +1,4 @@
-canzoniereonline
+https://cloud.githubusercontent.com/assets/383711/10754026/2c5c9d54-7c95-11e5-88ec-ebffe8569305.png canzoniereonline
 ================
 
 The class used on www.canzoniereonline.it for the creation of songbooks online.
