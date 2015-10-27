@@ -34,11 +34,19 @@
 	\relax
 \else
 	\iftitleindex
+		\ifxetex
+		\printindex[alfabetico]
+		\else
 		\printindex
+		\fi
 	\else
 	\fi
 	\ifauthorsindex
 	\printindex[autori]
+	\else
+	\fi
+	\iftematicindex
+	\printindex[tematico]
 	\else
 	\fi
 	\ifcover
