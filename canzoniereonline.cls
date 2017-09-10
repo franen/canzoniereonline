@@ -14,7 +14,7 @@
 %%  This work has the LPPL maintenance status "author-maintained".
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{canzoniereonline}[2015/10/26 v0.4 Una classe per la creazione di canzonieri on line]
+\ProvidesClass{canzoniereonline}[2017/09/10 v0.5 Una classe per la creazione di canzonieri on line]
 \RequirePackage{ifxetex}
 \ifxetex
 \RequirePackage{fontspec}
@@ -32,17 +32,19 @@
 \newif\ifacinquevert
 \newif\ifacinqueor
 \newif\ifaseivert
+\newif\ifsmart
 \newif\iftitleindex
 \newif\ifauthorsindex
 \newif\iftematicindex
 \newif\ifcover
 \DeclareOption{palatino}{\libertinefalse}
 \DeclareOption{libertine}{\libertinetrue}
-\DeclareOption{singoli}{\canzsingoletrue\aquattrovertfalse\acinquevertfalse\acinqueorfalse\aseivertfalse\coverfalse}
-\DeclareOption{standard}{\aquattroverttrue\canzsingolefalse\acinquevertfalse\acinqueorfalse\aseivertfalse}
-\DeclareOption{a5vert}{\acinqueverttrue\canzsingolefalse\aquattrovertfalse\acinqueorfalse\aseivertfalse}
-\DeclareOption{a5oriz}{\acinqueortrue\canzsingolefalse\aquattrovertfalse\acinquevertfalse\aseivertfalse}
-\DeclareOption{a6vert}{\aseiverttrue\canzsingolefalse\aquattrovertfalse\acinquevertfalse\acinqueorfalse}
+\DeclareOption{singoli}{\canzsingoletrue\aquattrovertfalse\acinquevertfalse\acinqueorfalse\aseivertfalse\coverfalse\smartfalse}
+\DeclareOption{standard}{\aquattroverttrue\canzsingolefalse\acinquevertfalse\acinqueorfalse\aseivertfalse\smartfalse}
+\DeclareOption{a5vert}{\acinqueverttrue\canzsingolefalse\aquattrovertfalse\acinqueorfalse\aseivertfalse\smartfalse}
+\DeclareOption{a5oriz}{\acinqueortrue\canzsingolefalse\aquattrovertfalse\acinquevertfalse\aseivertfalse\smartfalse}
+\DeclareOption{a6vert}{\aseiverttrue\canzsingolefalse\aquattrovertfalse\acinquevertfalse\acinqueorfalse\smartfalse}
+\DeclareOption{smart}{\smarttrue\aseivertfalse\canzsingolefalse\aquattrovertfalse\acinquevertfalse\acinqueorfalse}
 \DeclareOption{titleindex}{\titleindextrue}
 \DeclareOption{authorsindex}{\authorsindextrue}
 \DeclareOption{tematicindex}{\tematicindextrue}
@@ -137,7 +139,9 @@
 \ifaseivert
 	\RequirePackage[paperheight=148mm, paperwidth=105mm, inner=6mm, outer=8mm, top=9mm, bottom=9mm]{geometry}
 \fi
-
+\ifsmart
+	\RequirePackage[paperheight=182mm, paperwidth=110mm, inner=2mm, outer=2mm, top=7mm, bottom=1mm]{geometry}
+\fi
 
 
 %TESTATINE
