@@ -14,7 +14,7 @@
 %%  This work has the LPPL maintenance status "author-maintained".
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{canzoniereonline}[2017/09/10 v0.5 Una classe per la creazione di canzonieri on line]
+\ProvidesClass{canzoniereonline}[2017/12/17 v0.6 Una classe per la creazione di canzonieri on line]
 \RequirePackage{ifxetex}
 \ifxetex
 \RequirePackage{fontspec}
@@ -461,32 +461,48 @@
 \NewDocumentCommand{\veditoken}{}{\tl_show:N \l_index_tl}
 \ExplSyntaxOff
 %creo l'ordine dei ``momenti''. I momenti della messa sono in un primo gruppo, i tempi liturgici in un secondo (che inizia con il 21), le attribuzioni particolari iniziano col 31  e le canzoni scout col 51. Questo solo per comodità, nel caso in cui si dovesse inserire qualche nuovo momento non servirebbe cambiare i numeri di tutti i momenti successivi, ma solo di alcuni.
+
 \setposition{Ingresso}{01}
 \setposition{Atto penitenziale}{02}
 \setposition{Gloria}{03}
 \setposition{Salmi}{04}
 \setposition{Acclamazione al Vangelo}{05}
 \setposition{Alleluia}{06}
-\setposition{Offertorio}{07}
-\setposition{Santo}{08}
-\setposition{Mistero della fede}{09}
-\setposition{Padre nostro}{10}
-\setposition{Rito della pace}{11}
-\setposition{Agnello di Dio}{12}
-\setposition{Canto di comunione}{13}
-\setposition{Canto di congedo}{14}
+\setposition{Credo}{07}
+\setposition{Offertorio}{08}
+\setposition{Santo}{09}
+\setposition{Consacrazione}{10}
+\setposition{Anamnesi}{11}
+\setposition{Dossologia}{12}
+\setposition{Padre nostro}{13}
+\setposition{Pace}{14}
+\setposition{Agnello di Dio}{15}
+\setposition{Comunione}{16}
+\setposition{Congedo}{17}
 
 \setposition{Avvento}{20}
 \setposition{Natale}{21}
 \setposition{Quaresima}{22}
-\setposition{Pasqua}{23}
+\setposition{Triduo Pasquale}{23}
+\setposition{Pasqua}{24}
+\setposition{Pentecoste}{25}
 
-\setposition{Canti di Taizé}{30}
-\setposition{Canti francescani}{31}
-\setposition{Canti mariani}{32}
 
-\setposition{Riconciliazione}{33}
-\setposition{Conversione}{34}
+\setposition{Adorazione}{31}
+\setposition{Conversione}{32}
+\setposition{Lode}{33}
+\setposition{Penitenza}{34}
+\setposition{Riconciliazione}{35}
+\setposition{Ringraziamento}{36}
+\setposition{Ritornelli}{37}
+\setposition{Parola}{38}
+\setposition{Matrimonio}{39}
+\setposition{Esequie}{40}
+\setposition{Magnificat}{41}
+\setposition{Maria}{42}
+\setposition{San Francesco}{43}
+\setposition{Spiritual}{44}
+\setposition{Taizé}{45}
 
 \setposition{L/C}{51}
 \setposition{E/G}{52}
