@@ -14,7 +14,7 @@
 %%  This work has the LPPL maintenance status "author-maintained".
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{canzoniereonline}[2017/12/17 v0.6 Una classe per la creazione di canzonieri on line]
+\ProvidesClass{canzoniereonline}[2021/08/27 v0.7] Una classe per la creazione di canzonieri on line]%modificato comando indici con lettere accentate
 \RequirePackage{ifxetex}
 \ifxetex
 \RequirePackage{fontspec}
@@ -405,6 +405,9 @@
 \def\letters@list{\do\i{i}}
 \newcommand{\noaccentindex}[1]{%
   \begingroup
+	\let\UTF@two@octets@noexpand\@empty
+  \let\UTF@three@octets@noexpand\@empty
+  \let\UTF@four@octets@noexpand\@empty
   \protected@edef\next{#1}%
   \ifnum\pdfstrcmp{\detokenize\expandafter{\next}}{\detokenize{#1}}=\z@
     \endgroup\index{#1|indexanchor{\thesongnum}}%
