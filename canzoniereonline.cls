@@ -14,7 +14,7 @@
 %%  This work has the LPPL maintenance status "author-maintained".
 %% 
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesClass{canzoniereonline}[2021/08/27 v0.7] Una classe per la creazione di canzonieri on line]%modificato comando indici con lettere accentate
+\ProvidesClass{canzoniereonline}[2021/08/27 v0.7 Una classe per la creazione di canzonieri on line]%modificato comando indici con lettere accentate
 \RequirePackage{ifxetex}
 \ifxetex
 \RequirePackage{fontspec}
